@@ -21,7 +21,8 @@ res
 *.pkl
 2024-*
 [DEBUG]*
-singularity
+*.sif
+.singularity/*.sif
 work_singularity
 
 # Debug related
