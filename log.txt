@@ -1,0 +1,6 @@
+Error for command "build": accepts 2 arg(s), received 1
+
+Usage:
+  singularity [global options...] build [local options...] <IMAGE PATH> <BUILD SPEC>
+
+Run 'singularity --help' for more detailed usage information.
