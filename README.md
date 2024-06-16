@@ -41,6 +41,7 @@ source ./singularity-aliases.sh
 
 
 
+<<<<<<< HEAD
 ## Building sandbox container
 ``` bash
 rm -rf ./.singularity/tools-2024-0615/
@@ -61,6 +62,10 @@ ls .singularity
 ``` bash
 sbuild ./.singularity/tools-2024-0615.def -f
 sbuild ./.singularity/all-2024-0615.def -f
+=======
+## Building
+```
+>>>>>>> c715aa5dccf62f30d4ef109351efa94efb9a2f7c
 sbuild ./.singularity/template.def -f
 ```
 
@@ -74,13 +79,17 @@ cd .singularity && \
 ## Login
 
 ``` bash
+<<<<<<< HEAD
 singularity shell --nv --cleanenv ./.singularity/all-2024-0615.sif
 ipython
 singularity shell --nv --cleanenv ./.singularity/tools-2024-0615.sif
+=======
+>>>>>>> c715aa5dccf62f30d4ef109351efa94efb9a2f7c
 sshell
 ```
 
 
+<<<<<<< HEAD
 ``` bash
 do-if-host "g06" alias singularity="singularity3.8.1"
 alias tree='singularity exec $SG_TOOLS_SIF tree'
@@ -94,4 +103,6 @@ alias flake8='singularity exec $SG_TOOLS_SIF flake8'
 alias black="singularity exec $SG_TOOLS_SIF flake8"
 alias gir-crypt="singularity exec $SG_TOOLS_SIF git-crypt"
 ```
+=======
+>>>>>>> c715aa5dccf62f30d4ef109351efa94efb9a2f7c
 

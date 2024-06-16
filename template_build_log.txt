@@ -1,0 +1,18 @@
+INFO:    Starting build...
+Getting image source signatures
+Copying blob sha256:71cc2ddb2ecf0e2a974aec10b55487120f03759e86e08b50a7f4c5d77638ab9b
+Copying config sha256:523ffac7fb2e245e5e7c407b9f7377be9c6c3bf03d380981168311f49030da17
+Writing manifest to image destination
+Storing signatures
+2024/06/12 10:29:52  info unpack layer: sha256:71cc2ddb2ecf0e2a974aec10b55487120f03759e86e08b50a7f4c5d77638ab9b
+INFO:    Running setup scriptlet
+INFO:    Running post scriptlet
++ /bin/bash /.post.script
+INFO:    Adding help info
+INFO:    Adding labels
+INFO:    Adding environment to container
+INFO:    Adding startscript
+INFO:    Adding testscript
+INFO:    Running testscript
+INFO:    Creating SIF file...
+INFO:    Build complete: template.sif

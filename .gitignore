@@ -1,8 +1,3 @@
-### Specific to this repository ###
-**/*sandbox
-**/*image
-
-
 
 ### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Secrets.gitignore ###
 .git-crypt/keys
@@ -203,7 +198,10 @@ cython_debug/
 #.idea/
 
 ### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Singularity.gitignore ###
+**/*.log
+**/*sandbox
 **/*.sif
+**/*image
 **/image
 **/image.sif
 
