@@ -7,6 +7,28 @@ git clone git@github.com:ywatanabe1989/singularity_template.git .singularity
 ## Tree
 
 ```
+# tree ./factory -L 2
+
+factory/
+├── definitions_files
+│   ├── tools-2024-0615.def
+│   └── tools-2024-0616.def
+├── modules
+│   ├── dnf
+│   ├── pip
+│   ├── python
+│   ├── system
+│   └── test
+├── sandbox -> tools-2024-0615/tools-2024-0615-sandbox
+├── tools-2024-0615
+│   ├── tools-2024-0615.def
+│   ├── tools-2024-0615-sandbox
+│   └── tools-2024-0615-sandbox.log
+├── tools-2024-0616
+│   ├── tools-2024-0616.def
+│   └── tools-2024-0616-sandbox
+├── tools-2024-0616-sandbox.log
+└── tools-sandbox -> tools-2024-0616/tools-2024-0616-sandbox
 ```
 
 ## Enables aliases
