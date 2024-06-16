@@ -1,93 +1,39 @@
-################################################################################
-## 00_usage.gitignore
-################################################################################
-# function git_cat_gitignores() {
-#     rm -f .gitignore # Remove the existing .gitignore file if it exists
-#     for file in $(ls .gitignore.d/*.gitignore | sort); do
-#         echo "################################################################################" >> .gitignore
-#         echo "## $(basename "$file")" >> .gitignore # Add the filename as a comment
-#         echo "################################################################################" >> .gitignore
-#         cat "$file" >> .gitignore
-#         echo "" >> .gitignore # Add a new line after the contents of each file
-#     done
-# }
-# git_cat_gitignores
-################################################################################
-## 01_custom.gitignore
-################################################################################
-# Large files
-res
-*.log
+
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Secrets.gitignore ###
+.git-crypt/keys
+
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/LargeFiles.gitignore ###
+*.csv
+*.mat
+*.mp4
+*.npy
+*.pdf
 *.pkl
-2024-*
-[DEBUG]*
-*.sif
-.singularity/*.sif
-work_singularity
+*.png
+*.pth
+*.tiff
+*.wav
 
-# Debug related
-*.old
-debug**
-config/**/*.csv
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Development.gitignore ###
+*old*
+**/*old*
 
-# Environment files
-env
-catboost_info
+.old
+**/.old
 
-# Ignore directories named .old or old
-**/.old/
-**/old/
+*.log
+**/*.log
 
-# Figures
-Figures/png/*
-Figures/tif/*
-!Figures/png/.gitkeep
-!Figures/tif/.gitkeep
+**/*_back
 
-# Logs
-/logs/*
-!logs/compile.log
+data/*
 
-# Presentations
-*.pptx
+**RUNNING**
+**FINISHED**
+**/RUNNING
+**/FINISHED
 
-# ## large files
-# res
-# **.log
-# **.pkl
-# **/2024-*
-# **/[DEBUG]*
-# singularity
-# work_singularity
-# **.old
-# **debug**
-# config/**/*.csv
-# env
-# catboost_info
-
-# # Old
-# *.old
-# old/*
-# **old**
-# !old/.gitkeep
-# # Ignore directories named .old or old
-# .old/
-# old/
-
-
-# Figures/png/*
-# Figures/tif/*
-# !Figures/png/.gitkeep
-# !Figures/tif/.gitkeep
-
-# ./logs/*
-# !logs/compile.log
-# *.pptx
-
-
-################################################################################
-## 02_python.gitignore
-################################################################################
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Python.gitignore ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -146,7 +92,7 @@ cover/
 *.pot
 
 # Django stuff:
-# *.log
+*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -184,7 +130,24 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/latest/usage/project/#working-with-version-control
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
 # Celery stuff
@@ -195,7 +158,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-env
 .env
 .venv
 env/
@@ -228,11 +190,22 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-################################################################################
-## 03_latex.gitignore
-################################################################################
-bak*
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
 
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Singularity.gitignore ###
+**/*.log
+**/*sandbox
+**/*.sif
+**/*image
+**/image
+**/image.sif
+
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/TeX.gitignore ###
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -274,6 +247,8 @@ bak*
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+*.rubbercache
+rubber.cache
 
 ## Build tool directories for auxiliary files
 # latexrun
@@ -372,6 +347,9 @@ acs-*.bib
 *.lg
 *.trc
 *.xref
+
+# hypdoc
+*.hd
 
 # hyperref
 *.brf
@@ -535,9 +513,8 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 
-################################################################################
-## 04_emacs.gitignore
-################################################################################
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Global/Emacs.gitignore ###
+# -*- mode: gitignore; -*-
 *~
 \#*\#
 /.emacs.desktop
@@ -585,10 +562,3 @@ flycheck_*.el
 
 # network security
 /network-security.data
-
-################################################################################
-## 05_paper.gitignore
-################################################################################
-# Ignore dot-start files at any level under the paper directory
-manuscript/**/.*
-

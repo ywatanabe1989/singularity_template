@@ -7,30 +7,28 @@ git clone git@github.com:ywatanabe1989/singularity_template.git .singularity
 ## Tree
 
 ```
-.
-├── pip
-│   ├── 01-basic.sh
-│   ├── 02-dev.sh
-│   ├── 03-image.sh
-│   ├── 04-video.sh
-│   ├── 05-dsp.sh
-│   ├── 06-ml.sh
-│   ├── 06-stats.sh
-│   ├── 07-torch-cuda-10.2.sh
-│   ├── 07-torch-cuda-11.8.sh
-│   └── 07-torch-cuda-12.1.sh
-├── python
-│   └── 3.12.sh
-├── README.md
-├── system
-│   ├── envs.sh
-│   ├── locales.sh
-│   └── ps1.sh
-├── template.def
-└── yum
-    ├── 01-repos.sh
-    ├── 02-basics.sh
-    └── 03-packages.sh
+# tree ./factory -L 2
+
+factory/
+├── definitions_files
+│   ├── tools-2024-0615.def
+│   └── tools-2024-0616.def
+├── modules
+│   ├── dnf
+│   ├── pip
+│   ├── python
+│   ├── system
+│   └── test
+├── sandbox -> tools-2024-0615/tools-2024-0615-sandbox
+├── tools-2024-0615
+│   ├── tools-2024-0615.def
+│   ├── tools-2024-0615-sandbox
+│   └── tools-2024-0615-sandbox.log
+├── tools-2024-0616
+│   ├── tools-2024-0616.def
+│   └── tools-2024-0616-sandbox
+├── tools-2024-0616-sandbox.log
+└── tools-sandbox -> tools-2024-0616/tools-2024-0616-sandbox
 ```
 
 ## Enables aliases
@@ -39,25 +37,29 @@ git clone git@github.com:ywatanabe1989/singularity_template.git .singularity
 source ./singularity-aliases.sh
 ```
 
-
-
-## Building
-```
-sbuild ./.singularity/template.def -f
-```
-
-## Softlink as .singularity/image.sif
-```
-cd .singularity && \
-    ln -sf template.sif image.sif && \
-    cd ..
-```
-
-## Login
-
+## Building sandbox container
 ``` bash
-sshell
+rm -rf ./.singularity/tools-2024-0615/
+yes | sbuilds ./.singularity/tools-2024-0615.def -f
+ls ./.singularity/tools-2024-0615
+cd ./.singularity && ln -sf tools-2024-0615/*sandbox sandbox && cd ..
+ls .singularity
+
+sbuild ./.singularity/tools-2024-0615.def -f
+sbuild ./.singularity/all-2024-0615.def -f
 ```
 
-
-
+## Singularity as a tool box
+``` bash
+export SG_TOOLS_IMAGE="./factory/tools-sandbox"
+alias tree='singularity exec $SG_TOOLS_IMAGE tree'
+alias autossh='singularity exec $SG_TOOLS_IMAGE autossh'
+alias ffmpeg='singularity exec $SG_TOOLS_IMAGE ffmpeg'
+alias htop='singularity exec $SG_TOOLS_IMAGE htop'
+alias sshpass='singularity exec $SG_TOOLS_IMAGE sshpass'
+alias rg='singularity exec $SG_TOOLS_IMAGE rg'
+alias pigz='singularity exec $SG_TOOLS_IMAGE pigz'
+alias flake8='singularity exec $SG_TOOLS_IMAGE flake8'
+alias black="singularity exec $SG_TOOLS_IMAGE flake8"
+alias gir-crypt="singularity exec $SG_TOOLS_IMAGE git-crypt"
+```

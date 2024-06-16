@@ -7,7 +7,7 @@
 ## 2. Add the line ". $HOME/singularity-aliases.sh" to automatically load this file
 ## 3. Store your sif file or sandbox directory under SG_HOME_DIR or SG_WORK_DIR as follows:
 ##
-## ./project_A/.singularity
+## .project_A/.singularity
 ## ├── project_A.sif # project_A.sif
 ## ├── project_A # project_A
 ## ├── image.sif (symlink -> project_A.sif)
@@ -27,14 +27,14 @@ export SINGULARITYENV_CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES
 export SINGULARITYENV_USER=$USER
 export SINGULARITYENV_DISPLAY=$DISPLAY
 export SINGULARITYENV_OUTDATED_IGNORE=$OUTDATED_IGNORE
-export SG_HOME_DIR="$HOME/.singularity/" # for general purposes
-export SG_CD_DIR="./.singularity/" # for project in the current directory
-export SG_FIXED_SIF="image.sif"
-export SG_SAND_SIF="image"
+export SG_HOME_DIR="$HOME/.singularity/"
+export SG_CD_DIR="./.singularity/"
+export SG_STATIC_SIF="image.sif"
+export SG_SAND_SIF="sandbox"
 
 # Fixme: Should they be exported?
-export SG_FIXED_SIF_HOME_PATH=${SG_HOME_DIR}${SG_FIXED_SIF}
-export SG_FIXED_SIF_CD_PATH=${SG_CD_DIR}${SG_FIXED_SIF}
+export SG_STATIC_SIF_HOME_PATH=${SG_HOME_DIR}${SG_STATIC_SIF}
+export SG_STATIC_SIF_CD_PATH=${SG_CD_DIR}${SG_STATIC_SIF}
 export SG_SAND_SIF_HOME_PATH=${SG_HOME_DIR}${SG_SAND_SIF}
 export SG_SAND_SIF_CD_PATH=${SG_CD_DIR}${SG_SAND_SIF}
 
@@ -42,136 +42,185 @@ export SG_SAND_SIF_CD_PATH=${SG_CD_DIR}${SG_SAND_SIF}
 ################################################################################
 # Adjustabale environmental variables
 ################################################################################
-# Bind
-export SG_BIND="/work,/storage,/local,/home"
-export SG_TOOLS_SIF=/storage/singularity/custom_environment/ywatanabe/ripple_2022_0606.sif
-# export SINGULARITYENV_SG_TOOLS_SIF=$SG_TOOLS_SIF
 
-
-## Helper functions
-function echo_eval () {
-    command=$1
-    echo "$command"
-    echo
-    eval "$command"
-}
-alias ee='echo_eval'
+# ## Helper functions
+# echo_eval () {
+#     command=$1
+#     echo "$command"
+#     echo
+#     eval "$command"
+# }
+# alias ee='echo_eval'
 
 ## Working with .sif files (-> ./.singularity/image.sif)
 # Current directory
-function sshell() { ee "singularity shell $SG_BASE_OPTIONS $SG_FIXED_SIF_CD_PATH"; }
-function spy () {
-    IMAGE_PATH=${SG_CD_DIR}${SG_FIXED_SIF}    
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_CD_PATH python3 $@"
+sshell() { ee "singularity shell $SG_BASE_OPTIONS $SG_STATIC_SIF_CD_PATH"; }
+spy () {
+    IMAGE_PATH=${SG_CD_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_CD_PATH python3 $@"
 }
-function sipy () {
-    IMAGE_PATH=${SG_CD_DIR}${SG_FIXED_SIF}        
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_CD_PATH ipython $@"
+sipy () {
+    IMAGE_PATH=${SG_CD_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_CD_PATH ipython $@"
 }
-function sjpy () {
-    IMAGE_PATH=${SG_CD_DIR}${SG_FIXED_SIF}
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_CD_PATH jupyter-notebook $@"
+sjpy () {
+    IMAGE_PATH=${SG_CD_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_CD_PATH jupyter-notebook $@"
 }
 # Home
-function sshell-home() { ee "singularity shell $SG_BASE_OPTIONS $SG_FIXED_SIF_HOME_PATH"; }
-function spy-home() {
-    IMAGE_PATH=${SG_HOME_DIR}${SG_FIXED_SIF}    
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_HOME_PATH python3 $@"
+sshell-home() { ee "singularity shell $SG_BASE_OPTIONS $SG_STATIC_SIF_HOME_PATH"; }
+spy-home() {
+    IMAGE_PATH=${SG_HOME_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_HOME_PATH python3 $@"
 }
-function sipy-home() {
-    IMAGE_PATH=${SG_HOME_DIR}${SG_FIXED_SIF}        
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_HOME_PATH ipython $@"
+sipy-home() {
+    IMAGE_PATH=${SG_HOME_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_HOME_PATH ipython $@"
 }
-function sjpy-home() {
-    IMAGE_PATH=${SG_HOME_DIR}${SG_FIXED_SIF}
-    ee "singularity exec -f -c --nv $SG_FIXED_SIF_HOME_PATH jupyter-notebook $@"
+sjpy-home() {
+    IMAGE_PATH=${SG_HOME_DIR}${SG_STATIC_SIF}
+    ee "singularity exec -f -c --nv $SG_STATIC_SIF_HOME_PATH jupyter-notebook $@"
 }
 
 ## Working with Sandbox (-> ./.singularity/image)
-function sshells() { ee "singularity shell -f -c --nv $SG_SAND_SIF_CD_PATH"; }
+sshells() { ee "singularity shell -f -c --nv $SG_SAND_SIF_CD_PATH"; }
 
-function sshellsw() {
-    ee "singularity shell -f -c --writable $SG_SAND_SIF_CD_PATH"
+sshellsw() {
+    ee "unset SINGULARITY_BIND; singularity shell -f -c --writable $SG_SAND_SIF_CD_PATH"
 }
 
-function _spy () {
+_spy () {
     BIN=$1
     shift
     ee "singularity exec $SG_BASE_OPTIONS $SG_SAND_SIF_CD_PATH $BIN $@"
 }
 
-function spyw () { _spy python; }
-function sipyw () { _spy ipython; }
-function sjpyw () { _spy jupyter-notebook; }
+spyw () { _spy python; }
+sipyw () { _spy ipython; }
+sjpyw () { _spy jupyter-notebook; }
+
+
+
 
 ################################################################################
 ## Build commands
 ################################################################################
+_organize_sandbox() {
+    DEFINITION_FILE=$1
+    SANDBOX_FILE=$2
+    LOG_FILE=$3
+
+    # Extract the base name without extension
+    BASE_DIR="${DEFINITION_FILE%.*}"/
+    DEF_DIR="${BASE_DIR%}"../definitions_files/
+
+    # Create directories if they don't exist
+    mkdir -p "$BASE_DIR" "$DEF_DIR"
+
+    cp -v $DEFINITION_FILE $DEF_DIR
+    mv -v $DEFINITION_FILE $SANDBOX_FILE $LOG_FILE $BASE_DIR
+    }
+
 # sif
-function _sbuild () {
+_sbuild () {
     DEFINITION_FILE=$1
     IMAGE_PATH=$2
-    LOG_FNAME=$3
+    LOG_PATH=$3
     shift 3
     OPTIONS="$@"
 
+    # Calculation
+    BASE_NAME="${DEFINITION_FILE%.*}"
+    ORIG_DIR=`pwd`
+
     if [[ ! -f "$DEFINITION_FILE" ]]; then
         echo "Error: Definition file does not exist."
-        return 1  # Exit the function with an error status
+        return 1
     fi
 
     # Main
-    ee "singularity build $OPTIONS $IMAGE_PATH $DEFINITION_FILE 2>&1 | tee ${LOG_FNAME}.log"
+    ORIG_SINGULARITY_BIND=$SINGULARITY_BIND
+    unset SINGULARITY_BIND
+    ee "singularity build $OPTIONS $IMAGE_PATH $DEFINITION_FILE 2>&1 | tee ${LOG_PATH}"
+    export SINGULARITY_BIND=$ORIG_SINGULARITY_BIND
 }
 
-function sbuild () {
+sbuild () {
     # Example:
     # $ sbuild <YOUR_AWESOME_RECIPE>.def --fakeroot --remote # -> <YOUR_AWESOME_RECIPE>.sif
-    
+
     DEFINITION_FILE=$1
-    shift  # Shift the positional parameters to the left
-    OPTIONS="$@"  # Capture all remaining arguments as options
+    shift
+    OPTIONS="$@"
 
     # Main
-    LOG_FNAME="${DEFINITION_FILE%.*}"
-    FIXED_IMAGE_PATH=${LOG_FNAME}.sif
+    BASE_NAME="${DEFINITION_FILE%.*}"
+    STATIC_IMAGE_PATH=${BASE_NAME}.sif
+    LOG_PATH=${BASE_NAME}.log
 
     echo $DEFINITION_FILE
-    echo $FIXED_IMAGE_PATH
-    echo $LOG_FNAME
-    echo $OPTIONS    
+    echo $STATIC_IMAGE_PATH
+    echo $BASE_NAME
+    echo $OPTIONS
 
-    _sbuild "$DEFINITION_FILE" "$FIXED_IMAGE_PATH" "$LOG_FNAME" "$OPTIONS"
+    _sbuild "$DEFINITION_FILE" "$STATIC_IMAGE_PATH" "$LOG_PATH" "$OPTIONS"
+
 }
 
-function sbuilds() {
+sbuilds() {
     # Example:
     # $ sbuilds <YOUR_AWESOME_RECIPE>.def --fakeroot --remote # -> <YOUR_AWESOME_RECIPE>
-    
+
     DEFINITION_FILE=$1
-    shift  # Shift the positional parameters to the left
-    OPTIONS="$@"  # Capture all remaining arguments as options
+    shift
+    OPTIONS="$@"
 
     # Main
-    LOG_FNAME=$(echo $DEFINITION_FILE | cut -d . -f 1)
-    SAND_IMAGE_PATH=${LOG_FNAME}
-    
-    _sbuild "$DEFINITION_FILE" "$OPTIONS" --fix-perms --sandbox "$SAND_IMAGE_PATH" "$LOG_FNAME" "$OPTIONS"
+    BASE_NAME="${DEFINITION_FILE%.*}"
+    SAND_IMAGE_PATH=${BASE_NAME}-sandbox
+    LOG_PATH=${BASE_NAME}-sandbox.log
 
-    chmod -R u+rwX $SAND_IMAGE_PATH
-    }
+    _sbuild "$DEFINITION_FILE" "$SAND_IMAGE_PATH" "$LOG_PATH" --fix-perms --sandbox "$OPTIONS"
+    if [ -d "$SAND_IMAGE_PATH" ]; then
+        _organize_sandbox "$DEFINITION_FILE" "$SAND_IMAGE_PATH" "$LOG_PATH"
+    fi
+}
 
+## Bind directories
+do-if-host "g01" export SINGULARITY_BIND="/work,/storage,/home"
+do-if-host "g03" export SINGULARITY_BIND="/work,/storage,/home"
+do-if-host "g02" export SINGULARITY_BIND="/work,/storage,/home"
+do-if-host "g04" export SINGULARITY_BIND="/work,/storage,/home"
+do-if-host "g05" export SINGULARITY_BIND="/work,/storage,/local,/home"
+do-if-host "g06" export SINGULARITY_BIND="/work,/storage,/local,/home"
+do-if-host "g06" alias singularity="singularity3.8.1"
+do-if-host "g07" export SINGULARITY_BIND="/work,/storage,/local,/home"
+do-if-host "g08" export SINGULARITY_BIND="/work,/storage,/home"
 
-# Tools
+## Tools
+do-if-host "nsurg" export SG_TOOLS_SIF=$HOME/proj/singularity_template/.singularity/tools-sandbox
+
 alias autossh='singularity exec $SG_TOOLS_SIF autossh'
-alias tree='singularity exec $SG_TOOLS_SIF tree'
+alias black='singularity exec $SG_TOOLS_SIF python -m black'
 alias ffmpeg='singularity exec $SG_TOOLS_SIF ffmpeg'
+alias flake8='singularity exec $SG_TOOLS_SIF python -m flake8'
+alias git-crypt="singularity exec $SG_TOOLS_SIF git-crypt"
 alias htop='singularity exec $SG_TOOLS_SIF htop'
-alias sshpass='singularity exec $SG_TOOLS_SIF sshpass'
-alias rg='singularity exec $SG_TOOLS_SIF rg'
 alias pigz='singularity exec $SG_TOOLS_SIF pigz'
-alias flake8='singularity exec $SG_TOOLS_SIF flake8'
-alias black="singularity exec $SG_TOOLS_SIF flake8"
+alias rg='singularity exec $SG_TOOLS_SIF rg'
+alias sshpass='singularity exec $SG_TOOLS_SIF sshpass'
+alias tree='singularity exec $SG_TOOLS_SIF tree'
+
+# alias flake8='singularity exec $SG_TOOLS_SIF flake8'
+# alias black="singularity exec $SG_TOOLS_SIF flake8"
+
 # alias emacs='singularity exec $SG_TOOLS_SIF emacs-26.1'
 
 # EOF
+# open /: is a directory
+# Config error: [Errno 30] Read-only file system: '/var/log/dnf.log': '/var/log/dnf.log'
+# open /: is a directory
+# open /.singularity.d/env/99-zz-02_custom_ps1.sh: read-only file system
+# chmod: changing permissions of '/.singularity.d/env/99-zz-02_custom_ps1.sh': Read-only file system
+# INFO:    Creating sandbox directory...
+# INFO:    Build complete: .singularity/tools-2024-0615-sandbox
