@@ -41,8 +41,26 @@ source ./singularity-aliases.sh
 
 
 
-## Building
+## Building sandbox container
+``` bash
+rm -rf ./.singularity/tools-2024-0615/
+yes | sbuilds ./.singularity/tools-2024-0615.def -f
+ls ./.singularity/tools-2024-0615
+cd ./.singularity && ln -sf tools-2024-0615/*sandbox sandbox && cd ..
+ls .singularity
 ```
+
+
+
+
+
+
+
+
+
+``` bash
+sbuild ./.singularity/tools-2024-0615.def -f
+sbuild ./.singularity/all-2024-0615.def -f
 sbuild ./.singularity/template.def -f
 ```
 
@@ -56,8 +74,24 @@ cd .singularity && \
 ## Login
 
 ``` bash
+singularity shell --nv --cleanenv ./.singularity/all-2024-0615.sif
+ipython
+singularity shell --nv --cleanenv ./.singularity/tools-2024-0615.sif
 sshell
 ```
 
 
+``` bash
+do-if-host "g06" alias singularity="singularity3.8.1"
+alias tree='singularity exec $SG_TOOLS_SIF tree'
+alias autossh='singularity exec $SG_TOOLS_SIF autossh'
+alias ffmpeg='singularity exec $SG_TOOLS_SIF ffmpeg'
+alias htop='singularity exec $SG_TOOLS_SIF htop'
+alias sshpass='singularity exec $SG_TOOLS_SIF sshpass'
+alias rg='singularity exec $SG_TOOLS_SIF rg'
+alias pigz='singularity exec $SG_TOOLS_SIF pigz'
+alias flake8='singularity exec $SG_TOOLS_SIF flake8'
+alias black="singularity exec $SG_TOOLS_SIF flake8"
+alias gir-crypt="singularity exec $SG_TOOLS_SIF git-crypt"
+```
 

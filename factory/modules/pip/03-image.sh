@@ -1,7 +1,7 @@
 python3 -m pip install \
         ipywidgets \
-        kaleido
+        kaleido \
         matplotlib \
         plotly \
         scikit-image \
-        seaborn \
+        seaborn

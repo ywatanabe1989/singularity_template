@@ -16,6 +16,7 @@ python3 -m pip install \
 
 ## Basics
 python3 -m pip install \
+        mngs \
         PyYAML \
         chardet \
         gitpython \
@@ -30,4 +31,4 @@ python3 -m pip install \
         psutil \
         pybids \
         scipy \
-        tqdm \
+        tqdm
