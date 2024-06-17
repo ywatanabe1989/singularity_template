@@ -1,3 +1,6 @@
+### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Specific.gitignore ###
+
+
 
 ### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Secrets.gitignore ###
 .git-crypt/keys

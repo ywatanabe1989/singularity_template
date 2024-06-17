@@ -6,6 +6,9 @@ From: rockylinux/rockylinux:latest
 
 %setup
     cp -rv ./.singularity/modules ${SINGULARITY_ROOTFS}/
+    mkdir ${SINGULARITY_ROOTFS}/work
+    mkdir ${SINGULARITY_ROOTFS}/storage
+    mkdir ${SINGULARITY_ROOTFS}/local
 
 %files
     ./.singularity/modules /opt
@@ -20,7 +23,7 @@ From: rockylinux/rockylinux:latest
     # Sourced at runtime.
     source ${SINGULARITY_ROOTFS}/modules/system/envs.sh
     source ${SINGULARITY_ROOTFS}/modules/system/locales.sh
-    # source ${SINGULARITY_ROOTFS}/modules/system/ps1.sh
+    source ${SINGULARITY_ROOTFS}/modules/system/aliases.sh
 
 %post -c /bin/bash
     # Executed after the base OS has been installed
@@ -34,7 +37,6 @@ From: rockylinux/rockylinux:latest
     source /modules/system/bind_dirs.sh
     source /modules/system/locales.sh
     source /modules/system/aliases.sh
-    # source /modules/system/ps1.sh
 
     # Python
     source /modules/python/3.12.sh

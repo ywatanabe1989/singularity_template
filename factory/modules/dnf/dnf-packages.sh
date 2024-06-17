@@ -49,6 +49,7 @@ install-autossh() {
     ./configure
     make -j32
     make -j32 install PREFIX=/usr/local
+    cd ..
     rm autossh* -rf
 }
 

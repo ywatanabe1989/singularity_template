@@ -1,0 +1,56 @@
+Bootstrap: docker
+From: rockylinux/rockylinux:latest
+
+%help
+    # $0
+    Help message here.
+
+%setup
+    cp -rv ./.singularity/modules ${SINGULARITY_ROOTFS}/opt/
+    mkdir ${SINGULARITY_ROOTFS}/work
+    mkdir ${SINGULARITY_ROOTFS}/storage
+    mkdir ${SINGULARITY_ROOTFS}/local
+
+%files
+    ./.singularity/modules /opt/
+
+%labels
+    MAINTENER "Yusuke Watanabe (ywatanabe@alumni.u-tokyo.ac.jp)"
+    VERSION "v1.0.0"
+    BUILT_DATE \"`date`\"
+    DEFINITION_FILE_NAME \"`basename "$0"`\"
+
+%environment
+    # Sourced at runtime.
+    source ${SINGULARITY_ROOTFS}/opt/modules/system/envs.sh
+    source ${SINGULARITY_ROOTFS}/opt/modules/system/locales.sh
+
+%post -c /bin/bash
+    # After the OS has been installed
+
+    # Dnf
+    source /opt/modules/dnf/dnf-packages.sh
+
+    # Env
+    source /opt/modules/system/envs.sh
+    source /opt/modules/system/bind_dirs.sh
+    source /opt/modules/system/locales.sh
+    source /opt/modules/system/aliases.sh
+
+    # Python
+    source /opt/modules/python/3.12.sh
+
+    # Pip
+    source /opt/modules/pip/01-basic.sh
+    source /opt/modules/pip/02-dev.sh
+
+
+%test
+    # source /opt/modules/test/mngs.sh
+
+
+%startscript
+
+
+%runscript
+    source /opt/modules/system/aliases.sh
