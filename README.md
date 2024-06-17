@@ -7,9 +7,9 @@ git clone git@github.com:ywatanabe1989/singularity_template.git .singularity
 ## Tree
 
 ```
-# tree ./factory -L 2
+# tree . -L 2
 
-factory/
+.
 ├── definitions_files
 │   ├── tools-2024-0615.def
 │   └── tools-2024-0616.def

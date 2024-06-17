@@ -1,6 +1,7 @@
 ### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Specific.gitignore ###
 030-singularity.sh
 999-ylab-tools.sh
+**/*202?-????*
 
 
 ### Source: /home/ywatanabe/.git-templates/.gitignore-templates/Custom/Secrets.gitignore ###
