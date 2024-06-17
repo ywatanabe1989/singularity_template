@@ -1,1 +1,0 @@
-../../.dotfiles/.bash.d/all/030-singularity.sh
