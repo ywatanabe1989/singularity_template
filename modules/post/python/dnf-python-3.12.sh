@@ -1,6 +1,6 @@
 PYTHON_VERSION=3.12
 
-yum -y install \
+dnf -y install \
     python"$PYTHON_VERSION" \
     python"$PYTHON_VERSION"-devel \
     python"$PYTHON_VERSION"-tkinter \

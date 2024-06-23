@@ -57,3 +57,15 @@ htop, autossh, black, ffmpeg, flake8, git-crypt, htop, pigz, rg, sshpass, tree
 
 ## Contact
 ywatanabe@alumni.u-tokyo.ac.jp
+
+
+
+# From: nvidia/cuda:11.8.0-devel-rockylinux8
+
+# From: nvidia/cuda:12.1.0-devel-rockylinux8
+
+# From: nvidia/cuda:12.5.0-devel-rockylinux9
+# From: rockylinux/rockylinux:latest
+
+# From: rockylinux/rockylinux:8.5
+# 8.5 accepts writing startup scripts under /.singularity.d/env/

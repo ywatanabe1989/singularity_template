@@ -1,5 +1,12 @@
 #!/bin/bash
 
+install-gh() {
+    curl -fsSL https://cli.github.com/packages/rpm/gh-cli.repo | tee /etc/yum.repos.d/github-cli.repo
+    dnf -y install gh
+
+    gh --version
+}
+
 install-basics() {
     dnf -y update
 
@@ -38,6 +45,7 @@ install-dnf-packages () {
     dnf -y install sshpass
     dnf -y install langpacks-en glibc-all-langpacks
     dnf -y install which
+    dnf -y install clear
 
     dnf -y upgrade
 }
@@ -84,6 +92,9 @@ main () {
     install-tree
     install-autossh
     install-git-crypt
+    install-gh
 }
 
 main
+
+# EOF
