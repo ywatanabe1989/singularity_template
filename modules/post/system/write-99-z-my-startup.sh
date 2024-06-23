@@ -4,8 +4,8 @@
 
 
 
-# TARGET_PATH="${SINGULARITY_ROOTFS}/.singularity.d/env/99-z-my-startup.sh"
-TARGET_PATH="./99-z-my-startup.sh"
+TARGET_PATH="${SINGULARITY_ROOTFS}/.singularity.d/env/99-z-my-startup.sh"
+# TARGET_PATH="./99-z-my-startup.sh"
 
 touch "$TARGET_PATH"
 
@@ -26,9 +26,11 @@ if ! [[ "$MYHOME" ]]; then
     cd $MYHOME
 fi
 
-if [ -f env/bin/activate ]; then
-    source env/bin/activate
-fi
+# if [ -f env/bin/activate ]; then
+#     source env/bin/activate
+# fi
+
+echo $SINGULARITY_CONTAINER
 
 # EOF
 EOH
