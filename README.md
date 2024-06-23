@@ -11,15 +11,16 @@ source ./singularity-aliases.sh
 
 ## Building sandbox container
 ``` bash
-rm -rf ./.singularity/tools-2024-0615/
-yes | sbuilds ./.singularity/tools-2024-0615.def -f
-ls ./.singularity/tools-2024-0615
-cd ./.singularity && ln -sf tools-2024-0615/*sandbox sandbox && cd ..
-ls .singularity
-
-sbuild ./.singularity/tools-2024-0615.def -f
-sbuild ./.singularity/all-2024-0615.def -f
+sbuild-sand-latest-again
 ```
+
+
+
+
+
+
+
+
 
 ## Singularity as a tool box
 The following commands are introduced by sourcing [`./singularity-aliases.sh`](./singularity-aliases.sh).
