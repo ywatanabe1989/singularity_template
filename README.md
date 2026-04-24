@@ -1,3 +1,22 @@
+# ⚠️ This repository has moved
+
+This template is now maintained inside the **[scitex-template](https://github.com/ywatanabe1989/scitex-template)** monorepo at `templates/singularity/`.
+
+## Migration
+
+```bash
+pip install scitex-template
+
+# Python
+from scitex_template import clone_template_from_cache
+clone_template_from_cache("singularity", "./my-new-project")
+```
+
+See: https://github.com/ywatanabe1989/scitex-template/tree/main/templates/singularity
+
+This repository is archived for history and will no longer receive updates.
+
+---
 ## Singularity Template
 ```bash
 git clone git@github.com:ywatanabe1989/singularity_template.git .singularity
